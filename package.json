@@ -27,7 +27,8 @@
   "license": "MIT",
   "homepage": "https://github.com/wix-playground/wix-ui-tpa-settings-connector",
   "dependencies": {
-    "args": "~5.0.1"
+    "args": "~5.0.1",
+    "csstype": "^2.6.4"
   },
   "devDependencies": {
     "@types/args": "^3.0.0",
