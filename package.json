@@ -23,7 +23,7 @@
     "settings",
     "connector"
   ],
-  "author": "Vytenis Urbonavicius",
+  "author": "Arturas Chramcenko",
   "license": "MIT",
   "homepage": "https://github.com/wix-playground/wix-ui-tpa-settings-connector",
   "dependencies": {
