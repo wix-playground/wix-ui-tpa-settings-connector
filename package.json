@@ -26,12 +26,9 @@
   "author": "Arturas Chramcenko",
   "license": "MIT",
   "homepage": "https://github.com/wix-playground/wix-ui-tpa-settings-connector",
-  "dependencies": {
-    "args": "~5.0.1",
-    "csstype": "^2.6.4"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@types/args": "^3.0.0",
+    "csstype": "^2.6.4",
     "@types/jest": "^24.0.11",
     "find-node-modules": "^2.0.0",
     "jest": "^24.5.0",

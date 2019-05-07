@@ -3,25 +3,58 @@ import {IStyleParams} from './types'
 import {sdkMock, userStyles} from './wix-sdk-mock'
 
 describe('SettingsChangeObserver', () => {
-  it('should call provided callback with updated values', () => {
-    let callbackHandle: any = () => ({})
-    const sdkWithEventListener = { ...sdkMock, addEventListener: (eventName: string, callback: any) => {
-      callbackHandle = (dataToCallCallbackWith: IStyleParams) => {
-        callback(dataToCallCallbackWith)
-      }
-      return 0
-    }}
+  let triggerSettingsChange: any = () => ({})
+  let sdkWithEventListener: any
+  let userStylesInstance: IStyleParams
+  beforeEach(() => {
+    userStylesInstance = getUserStylesCopy()
+    sdkWithEventListener = {
+      ...sdkMock, addEventListener: (eventName: string, callback: any) => {
+        triggerSettingsChange = () => {
+          callback()
+        }
+        return 0
+      },
+      Style: {
+        ...sdkMock.Style,
+        getStyleParams: () => userStylesInstance,
+      },
+    }
+  })
 
+  it('should call provided callback on subscription to observer with initial style params', () => {
     const observer = new SettingsChangeObserver(sdkWithEventListener)
-
     observer
-      .forVariables(['myMainFont', 'someSettingsColor', 'nonExistantProp'])
+      .forVariables(['myMainFont', 'someSettingsColor', 'nonExistentProp'])
       .updateOnChange(([fontValue, colorValue, nonExistentValue]) => {
-        expect(fontValue).toEqual(userStyles.fonts.myMainFont.value)
-        expect(colorValue).toEqual(userStyles.colors.someSettingsColor.value)
+          expect(fontValue).toEqual('something')
+          expect(colorValue).toEqual('red')
+          expect(nonExistentValue).toEqual(undefined)
+      })
+  })
+
+  it('should call provided callback when settings change', () => {
+    const observer = new SettingsChangeObserver(sdkWithEventListener)
+    let isInitialStyleUpdate = true
+    observer
+      .forVariables(['myMainFont', 'someSettingsColor', 'nonExistentProp'])
+      .updateOnChange(([fontValue, colorValue, nonExistentValue]) => {
+        if (isInitialStyleUpdate) {
+          isInitialStyleUpdate = false
+          return
+        }
+
+        expect(fontValue).toEqual('updated font definition')
+        expect(colorValue).toEqual('blue')
         expect(nonExistentValue).toEqual(undefined)
       })
 
-    callbackHandle(userStyles)
+    userStylesInstance.fonts.myMainFont.value = 'updated font definition'
+    userStylesInstance.colors.someSettingsColor.value = 'blue'
+    triggerSettingsChange()
   })
 })
+
+function getUserStylesCopy() {
+  return {...userStyles}
+}

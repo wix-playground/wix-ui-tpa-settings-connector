@@ -24,6 +24,7 @@ export class WixService implements IWixService {
       .addEventListener(this.WixSdk.Events.STYLE_PARAMS_CHANGE, () => {
           this.callWithStyleValueMap(callback)
     })
+    this.callWithStyleValueMap(callback)
   }
 
   private readonly callWithStyleValueMap = (callback: (styleValues: IUserSettings) => void) => {
