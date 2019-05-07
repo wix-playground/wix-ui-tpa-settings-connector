@@ -3,7 +3,7 @@ import { ETextStylePresets, IStyleParams } from './types'
 /**
  * siteColors
  */
-export const siteColors = [{ name: 'name', value: '#fff', reference: 'none' }]
+export const siteColors = [{ name: 'name', value: '#fff', reference: 'some-color-reference' }]
 
 /**
  * userStyles
@@ -49,7 +49,7 @@ export const defaultFontDefinition = {
  */
 export const siteTextPresets = {
   'Body-L': defaultFontDefinition,
-  'Body-M': defaultFontDefinition,
+  'Body-M': {...defaultFontDefinition, value: 'font:normal normal normal 15px/1.4em proxima-n-w01-reg,sans-serif;'},
   'Body-S': defaultFontDefinition,
   'Body-XS': defaultFontDefinition,
   'Heading-L': defaultFontDefinition,
@@ -71,7 +71,7 @@ export const sdkMock = {
     getStyleParams: () => userStyles,
   },
   // istanbul ignore next
-  addEventListener: (e: string, callback: (data: IStyleParams) => void) => 0,
+  addEventListener: (e: string, callback: () => void) => 0,
   // istanbul ignore next
   removeEventListener: (e: string, id: number) => {
     // do nothing

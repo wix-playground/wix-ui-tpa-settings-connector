@@ -15,10 +15,11 @@ describe('SettingsChangeObserver', () => {
     const observer = new SettingsChangeObserver(sdkWithEventListener)
 
     observer
-      .forVariables(['myMainFont', 'someSettingsColor'])
-      .updateOnChange(([fontValue, colorValue]) => {
+      .forVariables(['myMainFont', 'someSettingsColor', 'nonExistantProp'])
+      .updateOnChange(([fontValue, colorValue, nonExistentValue]) => {
         expect(fontValue).toEqual(userStyles.fonts.myMainFont.value)
         expect(colorValue).toEqual(userStyles.colors.someSettingsColor.value)
+        expect(nonExistentValue).toEqual(undefined)
       })
 
     callbackHandle(userStyles)

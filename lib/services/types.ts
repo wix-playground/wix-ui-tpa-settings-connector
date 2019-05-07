@@ -14,7 +14,7 @@ export interface IWixService {
    *  @param {onStyleParamsChange} - takes a callback function thats is called every time user
    *  settings are changed with new style params
    */
-  getStyleParams(): Promise<[ISiteColor[], ISiteTextPresets, IStyleParams]>
+  getStyleParams(): [ISiteColor[], ISiteTextPresets, IStyleParams]
   onStyleParamsChange(callback: (data: IUserSettings) => void): void
 }
 
@@ -32,7 +32,7 @@ export interface ISettingsChangeObserver {
 export interface IWixSDK {
   Style: IWixSDKStyle
   Events: IWixEvents
-  addEventListener(event: string, callback: (data: IStyleParams) => void): number
+  addEventListener(event: string, callback: () => void): number
   removeEventListener(event: string, listenerId: number): void
 }
 /**
@@ -132,6 +132,7 @@ export interface ISiteTextPresets {
   [ETextStylePresets.PageTitle]: ISiteFontDefinition
   [ETextStylePresets.Title]: ISiteFontDefinition
   [ETextStylePresets.Menu]: ISiteFontDefinition
+  [preset: string]: ISiteFontDefinition
 }
 
 /**
