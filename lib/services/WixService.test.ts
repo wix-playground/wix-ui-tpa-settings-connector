@@ -1,4 +1,4 @@
-import { IStyleParams} from './types'
+import {IStyleParams} from './types'
 import {sdkMock, siteColors, siteTextPresets, userStyles} from './wix-sdk-mock'
 import {WixService} from './WixService'
 
@@ -22,5 +22,18 @@ describe('WixService: communication through wix sdk', () => {
     wixService.onStyleParamsChange(callback)
 
     expect(callback.mock.calls[0]).toEqual([{ myMainFont: 'something', someSettingsColor: 'red'}])
+  })
+
+  it('should remove old event listener if new one is being registered', () => {
+    const removeEventListenerSpy = jest.fn()
+    let eventIdCounter = 0
+    const sdkWithRemoveListenerSpy = {...sdkMock,
+        removeEventListener: removeEventListenerSpy,
+        addEventListener: (e: string, callback: (data: IStyleParams) => void) => eventIdCounter++,
+      }
+    const wixService = new WixService(sdkWithRemoveListenerSpy)
+    wixService.onStyleParamsChange(data => {/* do nothing*/ })
+    wixService.onStyleParamsChange(data => {/* do nothing*/ })
+    expect(removeEventListenerSpy.mock.calls[0]).toEqual([sdkMock.Events.STYLE_PARAMS_CHANGE, 0])
   })
 })

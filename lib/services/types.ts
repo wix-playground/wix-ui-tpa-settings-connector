@@ -150,10 +150,18 @@ export interface ISiteFontDefinition {
  * IStyleParams
  */
 export interface IStyleParams {
-  booleans: {}
+  booleans: IStyleParamWithValue // need to double check validity of this interface
   colors: IColorStyleParams
   fonts: IFontStyleParams
-  numbers: {}
+  numbers: IStyleParamWithValue // need to double check validity of this interface
+  [key: string]: IStyleParamWithValue
+}
+
+/**
+ * IValueParam
+ */
+export interface IValueParam {
+  value: string
 }
 
 /**
@@ -161,6 +169,12 @@ export interface IStyleParams {
  */
 export interface IColorStyleParams {
   [variableKey: string]: IColorValue | IThemedColorValue
+}
+/**
+ * IStyleParamWithValue
+ */
+export interface IStyleParamWithValue {
+  [variableKey: string]: IValueParam
 }
 
 /**
