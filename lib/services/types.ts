@@ -23,14 +23,14 @@ export interface IWixService {
  */
 export interface ISettingsChangeObserver {
   forVariables(variablesArray: string[]): ISettingsChangeObserver
-  updateOnChange(updateCallback: (changedValues: string[] | undefined[]) => void): void
+  updateOnChange(updateCallback: (changedValues: {[variable: string]: string | undefined}) => void): void
 }
 
 /**
  * IWixSDK
  */
 export interface IWixSDK {
-  Style: IWixSDKStyle
+  Styles: IWixSDKStyle
   Events: IWixEvents
   addEventListener(event: string, callback: () => void): number
   removeEventListener(event: string, listenerId: number): void

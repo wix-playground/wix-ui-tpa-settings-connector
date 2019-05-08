@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { ETextStylePresets, IStyleParams } from './types'
+import { ETextStylePresets, IWixSDK } from './types'
 /**
  * siteColors
  */
@@ -64,8 +64,8 @@ export const siteTextPresets = {
 /**
  * sdkMock
  */
-export const sdkMock = {
-  Style: {
+export const sdkMock: IWixSDK = {
+  Styles: {
     getSiteTextPresets: () => siteTextPresets,
     getSiteColors: () => siteColors,
     getStyleParams: () => userStyles,

@@ -16,7 +16,7 @@ describe('SettingsChangeObserver', () => {
         return 0
       },
       Style: {
-        ...sdkMock.Style,
+        ...sdkMock.Styles,
         getStyleParams: () => userStylesInstance,
       },
     }
@@ -26,10 +26,10 @@ describe('SettingsChangeObserver', () => {
     const observer = new SettingsChangeObserver(sdkWithEventListener)
     observer
       .forVariables(['myMainFont', 'someSettingsColor', 'nonExistentProp'])
-      .updateOnChange(([fontValue, colorValue, nonExistentValue]) => {
-          expect(fontValue).toEqual('something')
-          expect(colorValue).toEqual('red')
-          expect(nonExistentValue).toEqual(undefined)
+      .updateOnChange(({myMainFont, someSettingsColor, nonExistentProp}) => {
+          expect(myMainFont).toEqual('something')
+          expect(someSettingsColor).toEqual('red')
+          expect(nonExistentProp).toEqual(undefined)
       })
   })
 
@@ -38,15 +38,15 @@ describe('SettingsChangeObserver', () => {
     let isInitialStyleUpdate = true
     observer
       .forVariables(['myMainFont', 'someSettingsColor', 'nonExistentProp'])
-      .updateOnChange(([fontValue, colorValue, nonExistentValue]) => {
+      .updateOnChange(({myMainFont, someSettingsColor, nonExistentProp}) => {
         if (isInitialStyleUpdate) {
           isInitialStyleUpdate = false
           return
         }
 
-        expect(fontValue).toEqual('updated font definition')
-        expect(colorValue).toEqual('blue')
-        expect(nonExistentValue).toEqual(undefined)
+        expect(myMainFont).toEqual('updated font definition')
+        expect(someSettingsColor).toEqual('blue')
+        expect(nonExistentProp).toEqual(undefined)
       })
 
     userStylesInstance.fonts.myMainFont.value = 'updated font definition'

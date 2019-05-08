@@ -29,11 +29,13 @@ export class WixService implements IWixService {
 
   private readonly callWithStyleValueMap = (callback: (styleValues: IUserSettings) => void) => {
     const [siteColors, siteTextPresets, userStyleData] = this.getStyleParams()
-    const flattenedUserStyleParams = this
-        .extractUserStyleValues(userStyleData)(['fonts', 'colors', 'numbers', 'booleans'])
-    const siteColorMap = this.extractSiteColorValues(siteColors)
-    const siteFontsMap = this.extractSiteFontValues(siteTextPresets)
-    callback({ ...flattenedUserStyleParams, ...siteColorMap, ...siteFontsMap })
+    if (userStyleData) {
+      const flattenedUserStyleParams = this
+          .extractUserStyleValues(userStyleData)(['fonts', 'colors', 'numbers', 'booleans'])
+      const siteColorMap = this.extractSiteColorValues(siteColors)
+      const siteFontsMap = this.extractSiteFontValues(siteTextPresets)
+      callback({ ...flattenedUserStyleParams, ...siteColorMap, ...siteFontsMap })
+    }
   }
 
   private readonly extractSiteColorValues = (siteColors: ISiteColor[]) => {
@@ -66,7 +68,7 @@ export class WixService implements IWixService {
     return styleValue
   }
 
-  private readonly getSiteColors = (): ISiteColor[] => this.WixSdk.Style.getSiteColors()
-  private readonly getTextPresets = (): ISiteTextPresets => this.WixSdk.Style.getSiteTextPresets()
-  private readonly getUserStyles = (): IStyleParams => this.WixSdk.Style.getStyleParams()
+  private readonly getSiteColors = (): ISiteColor[] => this.WixSdk.Styles.getSiteColors()
+  private readonly getTextPresets = (): ISiteTextPresets => this.WixSdk.Styles.getSiteTextPresets()
+  private readonly getUserStyles = (): IStyleParams => this.WixSdk.Styles.getStyleParams()
 }

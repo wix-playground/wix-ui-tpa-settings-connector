@@ -16,10 +16,16 @@ export class SettingsChangeObserver implements ISettingsChangeObserver {
     return this
   }
 
-  public updateOnChange = (updateCallback: (changedValues: string[] | undefined[]) => void): void => {
+  public updateOnChange = (updateCallback: (changedValues:
+      {[variable: string]: string | undefined}) => void): void => {
     this.wixService.onStyleParamsChange(userSettings => {
-      const updatedValues = this.variablesToObserve.map(variable => userSettings[variable])
+      // const updatedValues = this.variablesToObserve.map(variable => ({[variable]: userSettings[variable]}))
+      const updatedValues = this.variablesToObserve.reduce((variableMap, variable) => {
+        return {...variableMap, [variable]: userSettings[variable]}
+      }, {})
       updateCallback(updatedValues)
     })
   }
 }
+
+export default SettingsChangeObserver

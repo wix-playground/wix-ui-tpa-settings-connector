@@ -1,1 +1,1 @@
-export * from './lib/services/SettingsChangeObserver'
+export {default} from './lib/services/SettingsChangeObserver'
