@@ -1,1 +1,1 @@
-console.log('Hello world')
+export {default} from './lib/services/SettingsChangeObserver'
